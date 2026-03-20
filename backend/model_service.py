@@ -58,10 +58,23 @@ if not os.path.exists(MODEL_PATH):
     gdown.download(url, MODEL_PATH, quiet=False)
 
 # Load model
-model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
-model.to(device)
-model.eval()
+model = None
 
+def load_model():
+    global model
+
+    if model is None:
+        model = MultiModalStrokeModel()
+
+        if not os.path.exists(MODEL_PATH):
+            url = os.getenv("MODEL_URL")
+            gdown.download(url, MODEL_PATH, quiet=False)
+
+        model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
+        model.to(device)
+        model.eval()
+
+    return model
 
 # -------------------------------
 # Image Transform
@@ -77,6 +90,7 @@ transform = transforms.Compose([
 # -------------------------------
 def predict_stroke(mri_path, ct_path):
 
+    model = load_model()   # 🔥 load only when needed
     mri = Image.open(mri_path).convert("RGB")
     ct = Image.open(ct_path).convert("RGB")
 
