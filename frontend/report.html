@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brain Stroke Report Generation</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="wrap">
+
+    <nav class="mini-nav">
+      <a href="index.html" class="mini-link">← Back to Home</a>
+    </nav>
+
+    <header>
+      <h1>Brain Stroke Report Generation</h1>
+      <div class="subtitle">Upload MRI and CT scans. Generate prediction report.</div>
+    </header>
+
+    <section class="card">
+
+      <!-- Upload Section -->
+      <h2 style="margin-bottom:16px;">Upload Scans</h2>
+
+      <div class="upload-sections">
+
+        <!-- MRI Upload -->
+        <div class="upload-box">
+          <h3>🧠 MRI Scan</h3>
+          <p class="file-note">Upload MRI (JPG)</p>
+          <label class="upload-btn">
+            Select MRI
+            <input id="mriInput" type="file" accept=".jpg,.jpeg" hidden />
+          </label>
+        </div>
+
+        <!-- CT Upload -->
+        <div class="upload-box">
+          <h3>🩻 CT Scan</h3>
+          <p class="file-note">Upload CT (JPG)</p>
+          <label class="upload-btn">
+            Select CT
+            <input id="ctInput" type="file" accept=".jpg,.jpeg" hidden />
+          </label>
+        </div>
+
+      </div>
+
+      <!-- Preview Section -->
+      <div class="content" style="margin-top:24px;">
+        <!-- MRI Preview -->
+        <div class="preview-wrap">
+          <h4>MRI Preview</h4>
+          <img id="mriPreview" class="preview" />
+          <div id="mriEmpty" class="empty">No MRI selected</div>
+        </div>
+
+        <!-- CT Preview -->
+        <div class="preview-wrap">
+          <h4>CT Preview</h4>
+          <img id="ctPreview" class="preview" />
+          <div id="ctEmpty" class="empty">No CT selected</div>
+        </div>
+      </div>
+
+        <!-- Actions -->
+        <div class="actions">
+          <button id="predictBtn" class="btn" disabled>
+            Predict
+          </button>
+
+          <div class="loader" id="loader" style="display:none;">
+            <div class="loader-bar"></div>
+          </div>
+
+          <div id="genState" class="report-status" style="display:none;">
+            Report Generated
+          </div>
+
+          <button id="downloadBtn" class="btn" style="display:none;">
+            Download Report
+          </button>
+        </div>
+      </div>
+
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

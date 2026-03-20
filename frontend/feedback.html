@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Feedback - Brain Stroke Report</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #03122b;
+      margin: 0;
+      padding: 0;
+    }
+    .wrap {
+      max-width: 600px;
+      margin: 50px auto;
+      background: #061547;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgb(13, 11, 50);
+    }
+    h1 {
+      text-align: center;
+      color: #f5f1f1;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    label {
+      font-weight: bold;
+      color: rgb(249, 243, 243);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 4px;
+      border: 1px solid #060606;
+      color: rgb(3, 3, 3);
+    }
+    select, input[type="submit"] {
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      color: rgb(245, 237, 237);
+    }
+    input[type="submit"] {
+      background: #4CAF50;
+      color: #fff;
+      border: none;
+      transition: 0.3s;
+    }
+    input[type="submit"]:hover {
+      background: #45a049;
+    }
+    .back-link {
+      margin-top: 15px;
+      text-align: center;
+    }
+    .back-link a {
+      color: #e7dfdf;
+      text-decoration: none;
+    }
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+    p.heading-text {
+      color: #e5e5e9;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Feedback</h1>
+    <p class="heading-text">
+      We value your feedback. Please rate your experience and leave any comments below:
+    </p>
+
+    <form id="feedbackForm">
+      <label for="rating">Rating:</label>
+      <select id="rating" name="rating" required>
+        <option value="">--Select Rating--</option>
+        <option value="5">Excellent</option>
+        <option value="4">Good</option>
+        <option value="3">Average</option>
+        <option value="2">Poor</option>
+        <option value="1">Very Poor</option>
+      </select>
+
+      <label for="comments">Comments:</label>
+      <textarea id="comments" name="comments" placeholder="Enter your feedback here..." required></textarea>
+
+      <input type="submit" value="Submit Feedback" />
+    </form>
+
+    <div class="back-link">
+      <a href="index.html">← Back to Home</a>
+    </div>
+  </div>
+
+  <script>
+    const feedbackForm = document.getElementById('feedbackForm');
+    feedbackForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const rating = document.getElementById('rating').value;
+      const comments = document.getElementById('comments').value;
+      const patientId = localStorage.getItem('patient_id'); // Ensure this is set after login
+
+      if (!patientId) {
+        alert("You must be logged in to submit feedback.");
+        return;
+      }
+
+      if (!comments) {
+        alert("Please enter your comments.");
+        return;
+      }
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/submit_feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            patient_id: patientId,
+            comments: comments,
+            rating: rating
+          })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert(result.message || "Feedback submitted successfully!");
+          feedbackForm.reset();
+        } else {
+          alert(result.error || "Failed to submit feedback.");
+        }
+      } catch (err) {
+        alert("Error submitting feedback: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>

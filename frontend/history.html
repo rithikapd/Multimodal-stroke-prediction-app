@@ -1,0 +1,35 @@
+<h2>Patient History</h2>
+
+<table id="table">
+
+<tr>
+
+<th>Patient</th>
+<th>Prediction</th>
+<th>Confidence</th>
+
+</tr>
+
+</table>
+
+<script>
+
+fetch("http://127.0.0.1:5000/history")
+.then(res=>res.json())
+.then(data=>{
+
+const table=document.getElementById("table")
+
+for(let key in data){
+
+let row=table.insertRow()
+
+row.insertCell(0).innerText=data[key].patient_id
+row.insertCell(1).innerText=data[key].prediction
+row.insertCell(2).innerText=data[key].confidence
+
+}
+
+})
+
+</script>
