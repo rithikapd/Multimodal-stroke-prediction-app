@@ -54,7 +54,7 @@ MODEL_PATH = "models/final_multimodal_stroke_model.pth"
 if not os.path.exists(MODEL_PATH):
     print("Downloading model from Google Drive...")
 
-    url = "https://drive.google.com/uc?id=13SHtYTkLJ6eqvLyGMhRGUNHAp9zid3yM"
+    url = os.getenv("MODEL_URL")
     gdown.download(url, MODEL_PATH, quiet=False)
 
 # Load model

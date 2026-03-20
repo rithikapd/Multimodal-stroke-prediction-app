@@ -6,7 +6,7 @@ from firebase_auth import upload_to_firebase
 from gradcam import generate_gradcam
 
 app = Flask(__name__)
-app.secret_key = "stroke_secret"
+app.secret_key = os.getenv("SECRET_KEY")
 
 UPLOAD_FOLDER = "uploads"
 REPORT_FOLDER = "reports"
